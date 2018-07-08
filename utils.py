@@ -12,25 +12,25 @@ def str2bool(v):
 
 
 def get_entity(tag_seq, char_seq):
-    # PER = get_PER_entity(tag_seq, char_seq)
-    # ADR = get_ADR_entity(tag_seq, char_seq)
-    # AFF = get_AFF_entity(tag_seq, char_seq)
-    # TIT = get_TIT_entity(tag_seq, char_seq)
-    # JOB = get_JOB_entity(tag_seq, char_seq)
+    PER = get_PER_entity(tag_seq, char_seq)
+    ADR = get_ADR_entity(tag_seq, char_seq)
+    AFF = get_AFF_entity(tag_seq, char_seq)
+    TIT = get_TIT_entity(tag_seq, char_seq)
+    JOB = get_JOB_entity(tag_seq, char_seq)
     # PER = get_name_entitry('PER', tag_seq, char_seq)
     # ADR = get_name_entitry('ADR', tag_seq, char_seq)
     # AFF = get_name_entitry('AFF', tag_seq, char_seq)
-    TIT = get_name_entitry('TIT', tag_seq, char_seq)
-    JOB = get_name_entitry('JOB', tag_seq, char_seq)
-    DOM = get_name_entitry('DOM', tag_seq, char_seq)
-    EDU = get_name_entitry('EDU', tag_seq, char_seq)
-    WRK = get_name_entitry('WRK', tag_seq, char_seq)
-    SOC = get_name_entitry('SOC', tag_seq, char_seq)
-    AWD = get_name_entitry('AWD', tag_seq, char_seq)
-    PAT = get_name_entitry('PAT', tag_seq, char_seq)
-    PRJ = get_name_entitry('PRJ', tag_seq, char_seq)
+    # TIT = get_name_entitry('TIT', tag_seq, char_seq)
+    # JOB = get_name_entitry('JOB', tag_seq, char_seq)
+    # DOM = get_name_entitry('DOM', tag_seq, char_seq)
+    # EDU = get_name_entitry('EDU', tag_seq, char_seq)
+    # WRK = get_name_entitry('WRK', tag_seq, char_seq)
+    # SOC = get_name_entitry('SOC', tag_seq, char_seq)
+    # AWD = get_name_entitry('AWD', tag_seq, char_seq)
+    # PAT = get_name_entitry('PAT', tag_seq, char_seq)
+    # PRJ = get_name_entitry('PRJ', tag_seq, char_seq)
     # return PER, ADR, AFF, TIT, JOB, DOM, EDU, WRK, SOC, AWD, PAT, PRJ
-    return DOM, EDU, WRK, SOC, AWD, PAT, PRJ
+    return PER, ADR, AFF, TIT, JOB#, DOM, EDU, WRK, SOC, AWD, PAT, PRJ
 
 def get_name_entitry(name, tag_seq, char_seq):
     length = len(char_seq)
