@@ -13,12 +13,12 @@ from data import read_corpus, read_dictionary, random_embedding
 
 DATA_DIR = os.path.join(os.path.abspath('..'), 'data')
 
-MODEL3_PATH = "../model/data_path_save/1521112368/checkpoints/"
+MODEL3_PATH = "./data_path_save/1521112368/checkpoints/"
 # MODEL3_PATH = "../model/data_path_save/1530423394/checkpoints/"
 # MODEL_PATH = "../model/data_path_save/1530521907/checkpoints/" #5
 # MODEL_PATH = "../model/data_path_save/1530605248/checkpoints/" #12
 # MODEL_PATH = "../model/data_path_save/1530683206/checkpoints/" #7
-MODEL_PATH = "../model/data_path_save/1530721857/checkpoints/" #9
+MODEL_PATH = "./data_path_save/1530721857/checkpoints/" #9
 
 NER_PATH = '.'
 
