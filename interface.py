@@ -174,4 +174,4 @@ def interface(text):
     
     return PER, ADR, AFF, TIT, JOB, DOM, EDU, WRK, SOC, AWD, PAT, PRJ
     
-interface(personList[1])
+# interface(personList[1])
