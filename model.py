@@ -46,7 +46,7 @@ class BiLSTM_CRF(object):
     def build_graph(self):
         self.add_placeholders()
         self.lookup_layer_op()
-        self.biLSTM_layer_op()
+        self.biLSTM_layer_op()  
         self.softmax_pred_op()
         self.loss_op()
         self.trainstep_op()
@@ -73,6 +73,7 @@ class BiLSTM_CRF(object):
 
     def biLSTM_layer_op(self):
         # print('word_embeddings: ', tf.shape(self.word_embeddings))
+
         with tf.variable_scope("lstm"):
             cell_lstm = tf.nn.rnn_cell.LSTMCell(self.hidden_dim)
             output_lstm, state_lstm = tf.nn.dynamic_rnn(
@@ -214,6 +215,24 @@ class BiLSTM_CRF(object):
         # print(tag)
         return tag
 
+    def demo(self, sess, sent, tag2label):
+        """
+
+        :param sess:
+        :param sent: 
+        :return:
+        """
+        label_list = []
+        for seqs, labels in batch_yield(sent, self.batch_size, self.vocab, tag2label, shuffle=False):
+            label_list_, _ = self.predict_one_batch(sess, seqs)
+            label_list.extend(label_list_)
+        label2tag = {}
+        for tag, label in tag2label.items():
+            label2tag[label] = tag if label != 0 else label
+        # print(label2tag)
+        tag = [label2tag[label] for label in label_list[0]]
+        return tag
+
     def run_one_epoch(self, sess, train, dev, tag2label, epoch, saver):
         """
 
@@ -350,4 +369,37 @@ class BiLSTM_CRF(object):
         metric_path = os.path.join(self.result_path, 'result_metric_' + epoch_num)
         for _ in conlleval(model_predict, label_path, metric_path):
             self.logger.info(_)
+
+class Original_model(BiLSTM_CRF):
+    def biLSTM_layer_op(self):
+        # print('word_embeddings: ', tf.shape(self.word_embeddings))
+        # print('output_lstm: ', tf.shape(output_lstm))
+        with tf.variable_scope("bi-lstm"):
+            cell_fw = LSTMCell(self.hidden_dim)
+            cell_bw = LSTMCell(self.hidden_dim)
+            (output_fw_seq, output_bw_seq), _ = tf.nn.bidirectional_dynamic_rnn(
+                cell_fw=cell_fw,
+                cell_bw=cell_bw,
+                inputs=self.word_embeddings,
+                sequence_length=self.sequence_lengths,
+                dtype=tf.float32)
+            output = tf.concat([output_fw_seq, output_bw_seq], axis=-1)
+            output = tf.nn.dropout(output, self.dropout_pl)
+
+        with tf.variable_scope("proj"):
+            W = tf.get_variable(name="W",
+                                shape=[2 * self.hidden_dim, self.num_tags],
+                                initializer=tf.contrib.layers.xavier_initializer(),
+                                dtype=tf.float32)
+
+            b = tf.get_variable(name="b",
+                                shape=[self.num_tags],
+                                 initializer=tf.zeros_initializer(),
+                                dtype=tf.float32)
+
+            s = tf.shape(output)
+            output = tf.reshape(output, [-1, 2*self.hidden_dim])
+            pred = tf.matmul(output, W) + b
+
+            self.logits = tf.reshape(pred, [-1, s[1], self.num_tags])
 
