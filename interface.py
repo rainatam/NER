@@ -73,9 +73,9 @@ else:
 
 #========================================================================================================
 
-with open(os.path.join(DATA_DIR, 'text.txt')) as file:
-    data = file.read()
-personList = data.split('*********&&&&&&&&')
+# with open(os.path.join(DATA_DIR, 'text.txt')) as file:
+#     data = file.read()
+# personList = data.split('*********&&&&&&&&')
 
 def print_tag(lst, name, text):
     temp = clean_list(lst)
